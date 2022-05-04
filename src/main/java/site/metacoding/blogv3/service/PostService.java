@@ -112,7 +112,7 @@ public class PostService {
         }
 
         // 2. 카테고리 있는지 확인
-        Optional<Category> categoryOp = categoryRepository.findById(postWriteReqDto.getCategoryId());
+        Optional<Category> categoryOp = categoryRepository.findById(Integer.parseInt(postWriteReqDto.getCategoryId()));
 
         // 3. post DB 저장
         if (categoryOp.isPresent()) {
@@ -198,6 +198,7 @@ public class PostService {
 
     // 방문자수 증가
     private Visit visitIncrease(Integer pageOwnerId) {
+
         Optional<Visit> visitOp = visitRepository.findById(pageOwnerId);
         if (visitOp.isPresent()) {
             Visit visitEntity = visitOp.get();

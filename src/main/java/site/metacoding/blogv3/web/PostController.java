@@ -2,6 +2,9 @@ package site.metacoding.blogv3.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -9,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +24,7 @@ import site.metacoding.blogv3.domain.category.Category;
 import site.metacoding.blogv3.domain.user.User;
 import site.metacoding.blogv3.handler.ex.CustomException;
 import site.metacoding.blogv3.service.PostService;
+import site.metacoding.blogv3.util.UtilValid;
 import site.metacoding.blogv3.web.dto.post.PostDetailRespDto;
 import site.metacoding.blogv3.web.dto.post.PostRespDto;
 import site.metacoding.blogv3.web.dto.post.PostWriteReqDto;
@@ -29,6 +34,7 @@ import site.metacoding.blogv3.web.dto.post.PostWriteReqDto;
 public class PostController {
 
     private final PostService postService;
+    private final HttpSession session;
     // CategoryService 사용하지 말고
     // PostService 사용하세요. 이유는 나중에 category, post글 다 같이 가지고 가야 하기 때문임!!
 
@@ -59,7 +65,10 @@ public class PostController {
     }
 
     @PostMapping("/s/post")
-    public String write(PostWriteReqDto postWriteReqDto, @AuthenticationPrincipal LoginUser loginUser) {
+    public String write(@Valid PostWriteReqDto postWriteReqDto, BindingResult bindingResult,
+            @AuthenticationPrincipal LoginUser loginUser) {
+
+        UtilValid.요청에러처리(bindingResult);
 
         postService.게시글쓰기(postWriteReqDto, loginUser.getUser());
 

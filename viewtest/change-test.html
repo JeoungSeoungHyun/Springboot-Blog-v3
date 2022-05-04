@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <select id="testChange">
+        <option value="">김길동</option>
+        <option value="홍길동">홍길동</option>
+        <option value="최철수">최철수</option>
+        <option value="나길동">나길동</option>
+    </select>
+
+    <img id="user-profile-img" src="" width="100px" height="100px" />
+
+    <form id="fileForm">      
+            <input name="id" id="id" type="hidden" value="{{data.id}}"/>
+            <input name="username" id="username" class="my_auth_form_box_input" type="text" value="{{data.username}}" placeholder="유저네임" maxlength="20"
+                required readonly />
+            <input name="password" id="password" class="my_auth_form_box_input" type="password" placeholder="수정 비밀번호" maxlength="20"
+                required />
+            <input id="same-password" class="my_auth_form_box_input" type="password" placeholder="비밀번호 확인"
+                maxlength="20" required />
+            <input name="email" class="my_auth_form_box_input" type="email"  value="{{data.email}}" placeholder="이메일" maxlength="60"
+                required />           
+        <input type="file" name="file" id="fileChange">
+    </form>
+ 
+    <script>
+        $("#testChange").change((event)=>{
+
+        });
+
+        $("#fileChange").change((event)=>{
+            //console.log(event.target.files[0]);
+            let f = event.target.files[0];
+
+            if(!f.type.match("image.*")){
+                alert("이미지를 선택해주세요!");
+                return;
+            }
+
+            // multipart/form-data로 파일을 전송하는 것이 가장 편하다.
+            // form 태그에 자바스크립트 객체 찾기 => fileForm
+            // form 태그 key:value 데이터 변환
+            // put요청을 해야되기 때문에 ajax로 처리한다. 
+            let fileForm = $("#fileForm")[0];
+            console.log(fileForm);
+            let formData = new FormData();
+            formData.append(fileForm[2].name,fileForm[2].value);
+            console.log(formData.has('name'));
+            console.log(formData.has('password'));
+            //fetch();
+            
+            let reader = new FileReader();
+
+            // 콜백 함수
+            reader.onload = (event)=>{
+                //console.log(event);
+                $("#user-profile-img").attr("src",event.target.result);
+
+            };
+
+            // 파일 다운로드
+            reader.readAsDataURL(f); // IO=>오래걸림 =>내부적으로 await와 async
+        });
+    </script>
+</body>
+</html>

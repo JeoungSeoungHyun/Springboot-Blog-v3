@@ -3,29 +3,34 @@
 <div class="container">
     <div class="my_auth_box">
         <div class="my_auth_form_box">
-            <div class="my_auth_form_box_title">JSotry</div>
-            <div class="my_error_box my_hidden">
+            <div class="d-flex justify-content-center">
+                {{#principal}} {{#profileImg}}
+                <img id="profile-img-btn" src="/upload/{{profileImg}}" class="my_profile_rounded_img_btn_lg"> {{/profileImg}} {{^profileImg}}
+                <img id="profile-img-btn" src="https://i1.sndcdn.com/avatars-000373392764-zp0p80-t500x500.jpg" class="my_profile_rounded_img_btn_lg"> {{/profileImg}}
+
+                <form id="update-form">
+                    <input id="profile-img-input" type="file" name="profileFile" class="my_hidden" />
 
             </div>
+            <div class="my_error_box my_hidden"></div>
             <!-- 수정은 put 요청 fetch 사용해야함 -->
-            <form>
-                <input id="username" class="my_auth_form_box_input" type="text" placeholder="유저네임" maxlength="20"
-                    required readonly />
-                <input id="password" class="my_auth_form_box_input" type="password" placeholder="기존 비밀번호" maxlength="20"
-                    required />
-                <input id="same-password" class="my_auth_form_box_input" type="password" placeholder="수정 비밀번호"
-                    maxlength="20" required />
-                <input class="my_auth_form_box_input" type="email" name="email" placeholder="이메일" maxlength="60"
-                    required readonly />
-                <button type="submit" class="my_secondary_btn">비밀번호수정</button>
+            <input id="id" type="hidden" value="{{id}}" />
+            <input id="username" class="my_auth_form_box_input" type="text" value="{{username}}" placeholder="유저네임" maxlength="20" required readonly />
+            <input id="password" class="my_auth_form_box_input" type="password" name="password" placeholder="수정 비밀번호" maxlength="20" required />
+            <input id="same-password" class="my_auth_form_box_input" type="password" placeholder="비밀번호 확인" maxlength="20" required />
+            <input class="my_auth_form_box_input" type="email" name="email" value="{{email}}" placeholder="이메일" maxlength="60" required />
+            <button id="btn-update" type="button" class="my_secondary_btn">회원정보 수정</button>
             </form>
             <div class="my_auth_form_box_link">
                 <div><a href="/login-form">로그인</a></div>
                 <div><a href="/user/password-reset-form">비밀번호 찾기</a></div>
             </div>
+            {{/principal}}
         </div>
     </div>
     <br />
 </div>
+
+<script src="/js/user/updateForm.js"></script>
 
 {{>/layout/footer}}

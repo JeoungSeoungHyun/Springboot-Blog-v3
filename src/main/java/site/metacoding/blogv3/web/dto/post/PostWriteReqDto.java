@@ -19,7 +19,7 @@ import site.metacoding.blogv3.domain.user.User;
 public class PostWriteReqDto {
 
     @NotBlank
-    private Integer categoryId;
+    private String categoryId;
     @Size(min = 1, max = 60)
     @NotBlank
     private String title;
